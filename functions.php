@@ -12,6 +12,15 @@ function defer_parsing_of_js( $url ) {
     return str_replace( ' src', ' defer src', $url );
 }
 
+// disable critical on all pages except front-page
+function ao_no_inline() {
+  if ( !is_front_page() ) {
+	return false;
+  } else {
+	return true;
+  }
+}
+
 // defer jquery & js
 function ao_ccss_defer_jquery( $in ) {
 	if (preg_match_all( '#<script.*>(.*)</script>#Usmi', $in, $matches, PREG_SET_ORDER ) ) {
@@ -30,6 +39,7 @@ function ao_ccss_defer_jquery( $in ) {
 	return $in;
 }
 
+//add_filter('autoptimize_filter_css_defer','ao_no_inline');
 //add_filter( 'autoptimize_html_after_minify', 'ao_ccss_defer_jquery', 11, 1 );
 //add_action('wp_enqueue_scripts', 'ao_include_custom_jquery');
 //add_filter( 'script_loader_tag', 'defer_parsing_of_js', 10 );
